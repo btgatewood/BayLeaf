@@ -13,6 +13,7 @@ class App
 {
 public:
 	bool init();
+
 private:
 	SDL_Window* window_{ nullptr };
 	SDL_Renderer* renderer_{ nullptr };
