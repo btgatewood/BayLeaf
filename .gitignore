@@ -2,11 +2,9 @@
 #   BayLeaf 2D game engine - .gitignore
 ################################################################################
 
-build/.vs/
-build/x64_Debug/obj/
-
 *.exe
 *.pdb
-
+*.vs/
+build/x64_Debug/obj/
 external/SDL2-2.26.5/docs/
 optional/
