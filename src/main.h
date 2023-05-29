@@ -9,10 +9,15 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
+
 class App
 {
 public:
 	bool init();
+	void run();
+	void quit();
 
 private:
 	SDL_Window* window_{ nullptr };
