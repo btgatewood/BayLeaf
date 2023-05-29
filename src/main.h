@@ -12,6 +12,13 @@
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
+class Game
+{
+public:
+	void update(double delta_time) {}
+	void render() {}
+};
+
 class App
 {
 public:
@@ -23,4 +30,6 @@ public:
 private:
 	SDL_Window* window_{ nullptr };
 	SDL_Renderer* renderer_{ nullptr };
+
+	Game game_{};
 };

@@ -69,20 +69,16 @@ void App::quit()
 
 bool App::run()  // returns false if user quits
 {
-	// process events
 	SDL_Event event;
-	while (SDL_PollEvent(&event))
+	while (SDL_PollEvent(&event))  // process events
 	{
 		if (event.type == SDL_QUIT)
 		{
 			return false;
 		}
 	}
-
-	// update
-
-	// render
-
+	game_.update(0.016);  // update
+	game_.render();		  // render
 	return true;
 }
 
