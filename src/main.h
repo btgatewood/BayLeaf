@@ -16,8 +16,9 @@ class App
 {
 public:
 	bool init();
-	void run();
 	void quit();
+
+	bool run();
 
 private:
 	SDL_Window* window_{ nullptr };

@@ -26,7 +26,7 @@ bool App::init()  // returns true on success
 	}
 
 	int flags{ IMG_INIT_PNG };
-	result = IMG_Init(flags);  // init sdl img lib
+	result = IMG_Init(flags);  // init sdl img lib, enable png support
 	if (flags != result)
 	{
 		std::cout << "IMG_Init(IMG_INIT_PNG) error: " << IMG_GetError() << '\n';
@@ -41,11 +41,6 @@ bool App::init()  // returns true on success
 
 	std::cout << "BayLeaf Engine initialized!\n";
 	return true;
-}
-
-void App::run()
-{
-
 }
 
 void App::quit()
@@ -72,11 +67,30 @@ void App::quit()
 	std::cout << "BayLeaf Engine shutdown!  Goodbye!\n";
 }
 
+bool App::run()  // returns false if user quits
+{
+	// process events
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_QUIT)
+		{
+			return false;
+		}
+	}
+
+	// update
+
+	// render
+
+	return true;
+}
+
 int main(int argc, char* argv[])
 {
 	App app;
 	app.init();
-	app.run(); 
+	while (app.run()) {}
 	app.quit();
 	return 0;
 }
