@@ -4,7 +4,7 @@ bool App::init()  // returns true on success
 {
 	std::cout << "Initializing BayLeaf Engine v0.0.1..." << '\n';
 
-	int result = SDL_Init(SDL_INIT_VIDEO);
+	int result{ SDL_Init(SDL_INIT_VIDEO) };
 	if (result != 0)
 	{
 		std::cout << "SDL_Init() error: " << SDL_GetError() << '\n';
@@ -43,7 +43,7 @@ bool App::init()  // returns true on success
 	return true;
 }
 
-void App::quit()
+void App::shutdown()
 {
 	std::cout << "BayLeaf Engine shutting down...\n";
 
@@ -67,26 +67,53 @@ void App::quit()
 	std::cout << "BayLeaf Engine shutdown!  Goodbye!\n";
 }
 
-bool App::run()  // returns false if user quits
+
+const int TICKS_PER_SECOND = 100;  // NOTE: Use multiples of 5 to avoid rounding errors.  But why?!
+const int MS_PER_UPDATE = 1000 / TICKS_PER_SECOND;
+
+// NOTE: Delta time is converted to seconds.  But why?!
+// const float DELTA_TIME = MS_PER_UPDATE / 1000.0f;  
+
+// const int MAX_RENDERS_PER_SECOND = 1000;
+// const int MIN_MS_PER_RENDER = 1000 / MAX_RENDERS_PER_SECOND;
+
+
+void App::mainloop()
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event))  // process events
+	auto previous{ SDL_GetTicks64() };
+	int update_timer{ 0 };
+
+	while (!quit_ && !game_.quit())
 	{
-		if (event.type == SDL_QUIT)
+		auto current{ SDL_GetTicks64() };
+		auto elapsed{ current - previous };
+		previous = current;
+
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
 		{
-			return false;
+			if (event.type == SDL_QUIT)
+			{
+				quit_ = true;
+			}
 		}
+
+		update_timer += elapsed;
+		while (update_timer >= MS_PER_UPDATE)
+		{
+			game_.update();
+			update_timer -= MS_PER_UPDATE;
+		}
+
+		game_.render();
 	}
-	game_.update(0.016);  // update
-	game_.render();		  // render
-	return true;
 }
 
 int main(int argc, char* argv[])
 {
 	App app;
 	app.init();
-	while (app.run()) {}
-	app.quit();
+	app.mainloop();
+	app.shutdown();
 	return 0;
 }

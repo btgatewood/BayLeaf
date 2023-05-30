@@ -15,21 +15,25 @@ const int SCREEN_HEIGHT = 720;
 class Game
 {
 public:
-	void update(double delta_time) {}
+	void update() {}
 	void render() {}
+
+	bool quit() { return quit_; }
+
+private:
+	bool quit_{ false };
 };
 
 class App
 {
 public:
 	bool init();
-	void quit();
-
-	bool run();
+	void mainloop();
+	void shutdown();
 
 private:
 	SDL_Window* window_{ nullptr };
 	SDL_Renderer* renderer_{ nullptr };
-
 	Game game_{};
+	bool quit_{ false };
 };
